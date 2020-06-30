@@ -38,7 +38,7 @@ selected_CCLE_subset.to_expression()
 - expression/
 
 ## Installation
-    $ git clone https://github.com/okadalabipr/ccle_processing.git
+    $ git clone https://github.com/himoto/ccle_processing.git
 
 ## License
 [MIT](LICENSE)
