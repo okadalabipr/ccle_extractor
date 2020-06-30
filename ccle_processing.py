@@ -36,7 +36,7 @@ class CancerCellLineEncyclopedia(object):
         )
 
     def _gene2id(self, gene):
-        if gene not in list(self.counts.Description):
+        if gene not in set(self.counts.Description):
             raise ValueError(gene)
         else:
             gene_id = self.counts.at[
@@ -51,7 +51,7 @@ class CancerCellLineEncyclopedia(object):
         return gene
 
     def _cell2id(self, cell):
-        if cell not in list(self.annotations.Name):
+        if cell not in set(self.annotations.Name):
             raise ValueError(cell)
         else:
             ccle_id = self.annotations.at[
