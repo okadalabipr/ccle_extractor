@@ -60,15 +60,18 @@ class CancerCellLineEncyclopedia(object):
             return ccle_id
 
     def _id2cell(self, ccle_id):
-        cell = self.annotations.at[
-            list(self.annotations.CCLE_ID).index(ccle_id), 'Name'
-        ]
-        try:
-            if math.isnan(float(cell)):
-                cell = re.findall('(.*?)_', ccle_id)[0]
-        except ValueError:
-            pass
-        return cell
+        if ccle_id not in set(self.annotations.CCLE_ID):
+            raise ValueError(ccle_id)
+        else:
+            cell = self.annotations.at[
+                list(self.annotations.CCLE_ID).index(ccle_id), 'Name'
+            ]
+            try:
+                if math.isnan(float(cell)):
+                    cell = re.findall('(.*?)_', ccle_id)[0]
+            except ValueError:
+                pass
+            return cell
 
     def _get_gene_id(self):
         gene_ids = []
