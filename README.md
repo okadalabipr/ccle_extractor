@@ -1,6 +1,11 @@
 # ccle_processing
 Generating test and/or training datasets from [CCLE](https://portals.broadinstitute.org/ccle) data
 
+## Requirements
+> - [pandas](https://pandas.pydata.org)
+> - [matplotlib](https://matplotlib.org)
+> - [seaborn](https://seaborn.pydata.org)
+
 ## CCLE Data
 - CCLE_RNAseq_rsem_genes_tpm_20180929.txt.gz
 - Cell_lines_annotations_20181226.txt
