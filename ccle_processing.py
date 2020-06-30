@@ -90,7 +90,7 @@ class CancerCellLineEncyclopedia(object):
         ccle_ids = self._get_ccle_id() \
             if len(self.ccle_names) < len(self.cell_lines) else self.ccle_names
         data = self.gene_expression_data.loc[gene_ids, ccle_ids]
-        del data.index.name
+        data.index.name = None
         data.rename(
             index=lambda x: self._id2gene(x),
             columns=lambda x: self._id2cell(x),
