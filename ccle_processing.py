@@ -16,9 +16,7 @@ class CancerCellLineEncyclopedia(object):
         self.ccle_names = ccle_names
 
         if not cell_lines and not ccle_names:
-            raise ValueError(
-                'cell_lines or ccle_names must be filled in.'
-            )
+            raise ValueError('cell_lines or ccle_names must be filled in.')
         
         self.gene_expression_data = pd.read_table(
             'https://data.broadinstitute.org/ccle/'\
@@ -37,7 +35,8 @@ class CancerCellLineEncyclopedia(object):
 
     def _gene2id(self, gene):
         if gene not in set(self.counts.Description):
-            raise ValueError(gene)
+            print("gene '{}' does not exist.\n".format(gene))
+            return False
         else:
             gene_id = self.counts.at[
                 list(self.counts.Description).index(gene), 'Name'
@@ -76,7 +75,11 @@ class CancerCellLineEncyclopedia(object):
     def _get_gene_id(self):
         gene_ids = []
         for gene in self.gene_names:
-            gene_ids.append(self._gene2id(gene))
+            a_gene_id = self._gene2id(gene)
+            if not a_gene_id:
+                pass
+            else:
+                gene_ids.append(a_gene_id)
         return gene_ids
     
     def _get_ccle_id(self):
@@ -116,14 +119,15 @@ class CancerCellLineEncyclopedia(object):
         )
         # ---
         for gene in self.gene_names:
-            ax = data.loc[gene].plot.bar(
-                figsize=(2*max(len(self.cell_lines), len(self.ccle_names)), 6),
-                fontsize=28,
-                title=gene,  # r'$\it{'+gene+'}$'
-            )
-            ax.set_ylabel('TPM')
-            sns.despine()
-            plt.savefig(
-                './expression/{}.pdf'.format(gene), bbox_inches='tight'
-            )
-            plt.close()
+            if gene in set(self.counts.Description):
+                ax = data.loc[gene].plot.bar(
+                    figsize=(
+                        2*max(len(self.cell_lines), len(self.ccle_names)), 6
+                    ), fontsize=28, title=gene,  # r'$\it{'+gene+'}$'
+                )
+                ax.set_ylabel('TPM')
+                sns.despine()
+                plt.savefig(
+                    './expression/{}.pdf'.format(gene), bbox_inches='tight'
+                )
+                plt.close()
