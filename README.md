@@ -1,4 +1,4 @@
-# ccle_processing
+# CCLEctor
 Generating test and/or training datasets from [CCLE](https://portals.broadinstitute.org/ccle) data
 
 ## Requirements
@@ -38,7 +38,7 @@ selected_CCLE_subset.to_expression()
 - expression/
 
 ## Installation
-    $ git clone https://github.com/himoto/ccle_processing.git
+    $ git clone https://github.com/okadalabipr/CCLEctor.git
 
 ## License
 [MIT](LICENSE)
