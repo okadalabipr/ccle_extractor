@@ -30,10 +30,14 @@ selected_CCLE_subset = CCLE(
 )
 '''
 
+# GeneCards link (https://www.genecards.org)
+selected_CCLE_subset.to_gene_summary()
+# TPM value
 selected_CCLE_subset.to_expression()
 ```
 
 ## Output
+- gene_summary.md
 - tpm_values.csv
 - expression/
 

@@ -13,4 +13,5 @@ __pycache__/
 
 # Output
 *.csv
+gene_summary.md
 expression/

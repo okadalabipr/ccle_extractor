@@ -14,9 +14,6 @@ class CancerCellLineEncyclopedia(object):
         self.gene_names = gene_names
         self.cell_lines = cell_lines
         self.ccle_names = ccle_names
-
-        if not cell_lines and not ccle_names:
-            raise ValueError('cell_lines or ccle_names must be filled in.')
         
         self.gene_expression_data = pd.read_table(
             'https://data.broadinstitute.org/ccle/'\
@@ -88,7 +85,7 @@ class CancerCellLineEncyclopedia(object):
             ccle_ids.append(self._cell2id(cell))
         return ccle_ids
 
-    def extract(self):
+    def _extract(self):
         gene_ids = self._get_gene_id()
         ccle_ids = self._get_ccle_id() \
             if len(self.ccle_names) < len(self.cell_lines) else self.ccle_names
@@ -103,8 +100,10 @@ class CancerCellLineEncyclopedia(object):
         return data
 
     def to_expression(self):
+        if not self.cell_lines and not self.ccle_names:
+            raise ValueError('cell_lines or ccle_names must be filled in.')
         os.makedirs('./expression', exist_ok=True)
-        data = self.extract()
+        data = self._extract()
         # rcParams
         plt.rcParams['font.family'] = 'Arial'
         plt.rcParams['font.size'] = 28
@@ -117,7 +116,6 @@ class CancerCellLineEncyclopedia(object):
                 '#EDC949','#B07AA2','#FF9DA7','#9C755F','#BAB0AC'
             ]
         )
-        # ---
         for gene in self.gene_names:
             if gene in set(self.counts.Description):
                 ax = data.loc[gene].plot.bar(
@@ -131,3 +129,18 @@ class CancerCellLineEncyclopedia(object):
                     './expression/{}.pdf'.format(gene), bbox_inches='tight'
                 )
                 plt.close()
+    
+    def to_gene_summary(self):
+        with open('gene_summary.md', mode='w') as f:
+            f.write('|gene_name|gene_id|GeneCards_URL|\n'\
+                    '|---------|-------|-------------|\n')
+            for gene in self.gene_names:
+                if gene in set(self.counts.Description):
+                    gene_id = self._gene2id(gene)
+                    gene_cards_url = (
+                        'https://www.genecards.org/'\
+                        'cgi-bin/carddisp.pl?gene='+gene
+                    )
+                    f.write(
+                        '|'+gene+'|'+gene_id+'|'+gene_cards_url+'|\n'
+                    )
