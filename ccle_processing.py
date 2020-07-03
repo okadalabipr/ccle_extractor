@@ -6,29 +6,24 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from cycler import cycler
 
-
 class CancerCellLineEncyclopedia(object):
     """https://portals.broadinstitute.org/ccle
     """
-    def __init__(self, gene_names, cell_lines=[], ccle_names=[]):
+    def __init__(self, gene_names, 
+                expression = 'https://data.broadinstitute.org/ccle/CCLE_RNAseq_rsem_genes_tpm_20180929.txt.gz', 
+                annotations = 'https://data.broadinstitute.org/ccle/Cell_lines_annotations_20181226.txt', 
+                counts = 'https://data.broadinstitute.org/ccle/CCLE_RNAseq_genes_counts_20180929.gct.gz', 
+                cell_lines=[], ccle_names=[]):
+        
         self.gene_names = gene_names
         self.cell_lines = cell_lines
         self.ccle_names = ccle_names
         
-        self.gene_expression_data = pd.read_table(
-            'https://data.broadinstitute.org/ccle/'\
-            'CCLE_RNAseq_rsem_genes_tpm_20180929.txt.gz',
-            index_col=0
-        )
-        self.annotations = pd.read_table(
-            'https://data.broadinstitute.org/ccle/'\
-            'Cell_lines_annotations_20181226.txt'
-        )
-        self.counts = pd.read_table(
-            'https://data.broadinstitute.org/ccle/'\
-            'CCLE_RNAseq_genes_counts_20180929.gct.gz',
-            header=2, usecols=range(2)
-        )
+        self.gene_expression_data = pd.read_table(expression,index_col=0)
+
+        self.annotations = pd.read_table(annotations)
+
+        self.counts = pd.read_table(counts,header=2, usecols=range(2))
 
         self.annotations_name = set(self.annotations.Name)
         self.annotations_ccle_id = set(self.annotations.CCLE_ID)

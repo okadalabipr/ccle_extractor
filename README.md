@@ -6,7 +6,10 @@ Generating test and/or training datasets from [CCLE](https://portals.broadinstit
 > - [matplotlib](https://matplotlib.org)
 > - [seaborn](https://seaborn.pydata.org)
 
-## CCLE Data
+## Default CCLE Data
+
+If the file paths to your CCLE data is not specified, following CCLE data will be downloaded and used automaticallly.
+
 - CCLE_RNAseq_rsem_genes_tpm_20180929.txt.gz
 - Cell_lines_annotations_20181226.txt
 - CCLE_RNAseq_genes_counts_20180929.gct.gz
@@ -20,7 +23,10 @@ from ccle_processing import CancerCellLineEncyclopedia as CCLE
 
 selected_CCLE_subset = CCLE(
     gene_names = ['EGFR', 'ERBB2', 'ERBB3', 'ERBB4'],
-    ccle_names = ['MCF7_BREAST', 'MDAMB231_BREAST']
+    ccle_names = ['MCF7_BREAST', 'MDAMB231_BREAST'],
+    expresssion = 'Path to your CCLE_RNAseq_rsem_genes_tpm_*.txt.gz',
+    annotations = 'Path to your Cell_lines_annotations_*.txt',
+    counts = 'Path to your CCLE_RNAseq_genes_counts_*.gct.gz'
 )
 
 ''' or
