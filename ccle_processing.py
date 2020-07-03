@@ -30,8 +30,12 @@ class CancerCellLineEncyclopedia(object):
             header=2, usecols=range(2)
         )
 
+        self.annotations_name = set(self.annotations.Name)
+        self.annotations_ccle_id = set(self.annotations.CCLE_ID)
+        self.counts_description = set(self.counts.Description)
+
     def _gene2id(self, gene):
-        if gene not in set(self.counts.Description):
+        if gene not in self.counts_description:
             print("gene '{}' does not exist.\n".format(gene))
             return False
         else:
@@ -47,7 +51,7 @@ class CancerCellLineEncyclopedia(object):
         return gene
 
     def _cell2id(self, cell):
-        if cell not in set(self.annotations.Name):
+        if cell not in self.annotations_name:
             raise ValueError(cell)
         else:
             ccle_id = self.annotations.at[
@@ -56,7 +60,7 @@ class CancerCellLineEncyclopedia(object):
             return ccle_id
 
     def _id2cell(self, ccle_id):
-        if ccle_id not in set(self.annotations.CCLE_ID):
+        if ccle_id not in self.annotations_ccle_id:
             raise ValueError(ccle_id)
         else:
             cell = self.annotations.at[
@@ -117,7 +121,7 @@ class CancerCellLineEncyclopedia(object):
             ]
         )
         for gene in self.gene_names:
-            if gene in set(self.counts.Description):
+            if gene in self.counts_description:
                 ax = data.loc[gene].plot.bar(
                     figsize=(
                         2*max(len(self.cell_lines), len(self.ccle_names)), 6
@@ -135,7 +139,7 @@ class CancerCellLineEncyclopedia(object):
             f.write('|gene_name|gene_id|GeneCards_URL|\n'\
                     '|---------|-------|-------------|\n')
             for gene in self.gene_names:
-                if gene in set(self.counts.Description):
+                if gene in self.counts_description:
                     gene_id = self._gene2id(gene)
                     gene_cards_url = (
                         'https://www.genecards.org/'\
