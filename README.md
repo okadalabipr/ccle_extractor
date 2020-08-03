@@ -1,5 +1,5 @@
-# CCLEctor
-Generating test and/or training datasets from [CCLE](https://portals.broadinstitute.org/ccle) data
+# ccle_extractor
+Extracting gene expression/metabolomics datasets from [CCLE](https://portals.broadinstitute.org/ccle) database
 
 ## Requirements
 > - [pandas](https://pandas.pydata.org)
