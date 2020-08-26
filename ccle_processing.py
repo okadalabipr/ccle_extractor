@@ -34,7 +34,7 @@ class CancerCellLineEncyclopedia(object):
         self.counts = pd.read_table(
             'https://data.broadinstitute.org/ccle/'\
             'CCLE_RNAseq_genes_counts_20180929.gct.gz',
-            header=2, usecols=range(2)
+            header=2
         )
         self.metabolomics_data = pd.read_csv(
             'https://data.broadinstitute.org/ccle/'\
@@ -134,6 +134,16 @@ class CancerCellLineEncyclopedia(object):
         )
         data.to_csv('metabolite_levels.csv')
         return data
+    
+    def save_CCLE_all_counts_as_csv(self):
+        """
+        Example
+        -------
+        >>> from ccle_processing import CancerCellLineEncyclopedia as CCLE
+        >>> CCLE().save_CCLE_all_counts_as_csv()
+        
+        """
+        self.counts.to_csv('CCLE_all_counts.csv')
 
     def to_gene_expression(self):
         if not self.cell_lines and not self.ccle_names:
@@ -148,12 +158,32 @@ class CancerCellLineEncyclopedia(object):
                         2*max(len(self.cell_lines), len(self.ccle_names)), 6
                     ), fontsize=28, title=gene,  # r'$\it{'+gene+'}$'
                 )
-                ax.set_ylabel('TPM')
+                ax.set_yscale('log', basey=2)
+                ax.set_ylabel('log2 (TPM+1)')
                 sns.despine()
                 plt.savefig(
                     './gene_expression/{}.pdf'.format(gene), bbox_inches='tight'
                 )
                 plt.close()
+
+        ccle_ids = self._get_ccle_id() \
+            if len(self.ccle_names) < len(self.cell_lines) else self.ccle_names
+        for cid in ccle_ids:
+            cell = self._id2cell(cid)
+            for gene in self.gene_names:
+                data.loc[gene, cell] += 1
+            ax = data.loc[:, cell].plot.bar(
+                figsize=(
+                    len(self.gene_names), 6
+                ), fontsize=28, #title=cell
+            )
+            ax.set_yscale('log', basey=2)
+            ax.set_ylabel('log2 (TPM+1)')
+            sns.despine()
+            plt.savefig(
+                './gene_expression/{}.pdf'.format(cell), bbox_inches='tight'
+            )
+            plt.close()
     
     def to_gene_summary(self):
         with open('gene_summary.md', mode='w') as f:
