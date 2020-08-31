@@ -2,9 +2,14 @@
 Extracting gene expression/metabolomics datasets from [CCLE](https://portals.broadinstitute.org/ccle) database
 
 ## Requirements
-> - [pandas](https://pandas.pydata.org)
-> - [matplotlib](https://matplotlib.org)
-> - [seaborn](https://seaborn.pydata.org)
+1. ```ccle_processing.py```
+    > - [pandas](https://pandas.pydata.org)
+    > - [matplotlib](https://matplotlib.org)
+    > - [seaborn](https://seaborn.pydata.org)
+1. ```counts_normalization.R```
+    > - [biomaRt](https://bioconductor.org/packages/release/bioc/html/biomaRt.html)
+    > - [dplyr](https://www.r-project.org/nosvn/pandoc/dplyr.html)
+    > - [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html)
 
 ## CCLE Data
 - CCLE_RNAseq_rsem_genes_tpm_20180929.txt.gz
@@ -53,15 +58,8 @@ Extracting gene expression/metabolomics datasets from [CCLE](https://portals.bro
     selected_CCLE_subset.to_metabolomics()
     ```
 
-## Output
-- gene_summary.md
-- tpm_values.csv
-- gene_expression/
-- metabolite_levels.csv
-- metabolomics/
-
 ## Installation
-    $ git clone https://github.com/okadalabipr/CCLEctor.git
+    $ git clone https://github.com/okadalabipr/ccle_extractor.git
 
 ## License
 [MIT](LICENSE)

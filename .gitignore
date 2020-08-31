@@ -11,6 +11,10 @@ __pycache__/
 *.ipynb
 .ipynb_checkpoints
 
+# R History files
+.Rhistory
+.Rapp.history
+
 # Output
 *.csv
 gene_summary.md
