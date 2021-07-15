@@ -5,7 +5,7 @@ import shutil
 from ccle.database import CancerCellLineEncyclopedia as CCLE
 
 GENE_NAMES = random.sample(CCLE().counts_description, 10)
-CCLE_NAMES = random.sample(CCLE().annotations_ccle_id, 10)
+CCLE_NAMES = random.sample(list(CCLE().gene_expression_data.columns[1:]), 10)
 COMPARISON = random.choice(["gene", "cell"])
 
 
