@@ -29,7 +29,8 @@ def test_subset():
         for gene in GENE_NAMES:
             assert f"{gene}.pdf" in os.listdir("gene_expression")
     else:
-        for cell in CCLE_NAMES:
+        for ccle_id in CCLE_NAMES:
+            cell = selected_CCLE_subset._id2cell(ccle_id)
             assert f"{cell}.pdf" in os.listdir("gene_expression")
     os.remove("tpm_values.csv")
     shutil.rmtree("gene_expression")
