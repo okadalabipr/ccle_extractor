@@ -7,6 +7,9 @@
 # python cache
 __pycache__/
 
+# pytest
+.pytest_cache/
+
 # Jupyter files
 *.ipynb
 .ipynb_checkpoints
