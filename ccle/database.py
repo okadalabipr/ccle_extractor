@@ -35,6 +35,7 @@ class CancerCellLineEncyclopedia(object):
 
         self.annotations_name = set(self.annotations.Name)
         self.annotations_ccle_id = set(self.annotations.CCLE_ID)
+        self.available_ccle_ids = set(self.gene_expression_data.columns[1:])
         self.counts_description = set(self.counts.Description)
 
     def _gene2id(self, gene):
@@ -89,6 +90,9 @@ class CancerCellLineEncyclopedia(object):
         ccle_ids = (
             self._get_ccle_id() if len(self.ccle_names) < len(self.cell_lines) else self.ccle_names
         )
+        for ccle_id in ccle_ids:
+            if ccle_id not in self.available_ccle_ids:
+                raise ValueError(f"'{ccle_id}' is not in the gene_expression_data table.")
         data = self.gene_expression_data.loc[gene_ids, ccle_ids]
         data.index.name = None
         data.rename(
